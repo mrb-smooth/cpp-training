@@ -2,9 +2,10 @@
 
 ## Week 1 (December 6 - 12, 2021)
 ### Day 1
-- [ ] Setup
-### Day 2
 - [ ] "Hello, World"
+### Day 2
+- [ ] Working with Types
+- [ ] Float Precision
 ### Day 3
 - [ ] Arrays and Vectors
 - [ ] Mixed Arrays
