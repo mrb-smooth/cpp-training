@@ -30,3 +30,20 @@
 *.exe
 *.out
 *.app
+
+### My ignores ###
+# Exclude Folders
+bin
+out
+
+# Exclude Compiled Files
+*.a
+*.o
+*.so
+*.obj
+*.exe
+*.lib
+*.dll
+
+# Misc
+compile_flags.txt
