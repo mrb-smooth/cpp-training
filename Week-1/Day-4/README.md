@@ -1,12 +1,15 @@
 # Overview
 
 ## Exercises
-- [ ] Arithmetic expressions
-- [ ] Truth table for cast operators
-Exercise: Generate a truth table for cast operators, when arithmetic operations are performed between two variables. For example int + float gives a float. Consider the types: int, float, char, bool
-- [ ] Operators: List the binary, unary and ternary operators with examples
-- [ ] Increment Operators
-- [ ] Implement the truth table for AND, OR and NOT operators.
+- [x] Arithmetic expressions
+- [x] Truth table for cast operators
+      Exercise: Generate a truth table for cast operators, when arithmetic
+      operations are performed between two variables. For example int + float 
+      gives a float.  Consider the types: int, float, char, bool
+
+- [x] Operators: List the binary, unary and ternary operators with examples
+- [x] Increment Operators
+- [x] Implement the truth table for AND, OR and NOT operators.
 
 ## Questions
 ### Question 1
