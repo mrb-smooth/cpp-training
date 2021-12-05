@@ -1,17 +1,17 @@
 # C++ Training Period (December 2021 Cohort)
 
 ## Week 1 (December 6 - 12, 2021)
-### Day 1
+### <a href="./Week-1/Day-1">Day 1</a>
 - [x] "Hello, World"
-### Day 2
+### <a href="./Week-1/Day-2">Day 2</a>
 - [x] Working with Types
 - [x] Float Precision
-### Day 3
+### <a href="./Week-1/Day-3">Day 3</a>
 - [x] Arrays and Vectors
 - [x] Mixed Arrays
-### Day 4
+### <a href="./Week-1/Day-4">Day 4</a>
 - [x] Expressions and Truths
-### Day 5
+### <a href="./Week-1/Day-5">Day 5</a>
 - [x] Matrix Multiplication
 
 ## Week 2 (December 13 - 19, 2021)
