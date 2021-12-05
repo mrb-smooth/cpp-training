@@ -8,11 +8,12 @@ C = A x B
 
 Where C is an mxp matrix.
 
-A. Generate input data for A and B.
-B. Validate A and B for dimensionality.
-C. If valid, then perform the product of AxB and generate C.
-D. Print out the three matrices in and row-col order on a terminal.
+- [x] Generate input data for A and B.
+- [x] Validate A and B for dimensionality.
+- [x] If valid, then perform the product of AxB and generate C.
+- [x] Print out the three matrices in and row-col order on a terminal.
 
-
-
-
+### Build & Run
+```bash
+make && ./bin/matrix-multiplication
+```
