@@ -4,15 +4,15 @@
 ### Day 1
 - [x] "Hello, World"
 ### Day 2
-- [ ] Working with Types
-- [ ] Float Precision
+- [x] Working with Types
+- [x] Float Precision
 ### Day 3
-- [ ] Arrays and Vectors
-- [ ] Mixed Arrays
+- [x] Arrays and Vectors
+- [x] Mixed Arrays
 ### Day 4
-- [ ] Expressions and Truths
+- [x] Expressions and Truths
 ### Day 5
-- [ ] Matrix Multiplication
+- [x] Matrix Multiplication
 
 ## Week 2 (December 13 - 19, 2021)
 ### Day 1
