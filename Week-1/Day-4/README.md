@@ -58,3 +58,8 @@ What is the order of precedence of operators above when y is initialized to x+++
 
 **The +++ operator increments x after the rvalue of x+2 is assigned  
 to y.**
+
+### Build & Run
+```bash
+make && ./bin/expressions-and-truths
+```

@@ -1,4 +1,4 @@
-PROJECT  = arrays-and-vectors
+PROJECT  = expressions-and-truths
 
 CXX      = clang++
 CXXFLAGS = -std=c++2a -O2 -g -pedantic -Wall -Wextra -Werror
