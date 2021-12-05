@@ -33,6 +33,8 @@ int main(void) {
 }
 ```
 
+**the variable x was never initialized.**
+
 ### Question 2
 Exercise: Will below program work with no errors? Why?
 
@@ -48,5 +50,11 @@ int main(void) {
 }
 ```
 
+**Yes. The +++ operator just increments x after the rvalue of x+2 is assigned  
+to y.**
+
 ### Question 3
 What is the order of precedence of operators above when y is initialized to x+++2?
+
+**The +++ operator increments x after the rvalue of x+2 is assigned  
+to y.**
