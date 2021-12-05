@@ -33,7 +33,9 @@
 
 ### My ignores ###
 # Exclude Folders
+venv
 bin
+env
 out
 
 # Exclude Compiled Files
@@ -44,6 +46,3 @@ out
 *.exe
 *.lib
 *.dll
-
-# Misc
-compile_flags.txt
