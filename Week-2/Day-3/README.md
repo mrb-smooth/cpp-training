@@ -7,7 +7,7 @@ int compute(int arg1, int arg2, unsigned char funcmask);
 
 where arg1 and arg2 are operands in a simple expresison of the type:
 
-arg1 <operator> arg2
+arg1 \<operator\> arg2
 
 Support 3 operators as regular functions:
 
@@ -27,3 +27,5 @@ Store these function pointers in an array which is a global variable available t
 Check the bit in funcmask, and associate a function to be called from the array.
 
 The compute() function then returns the result of the function called through pointer.
+
+###
