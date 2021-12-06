@@ -1,4 +1,4 @@
-PROJECT  = project-name
+PROJECT  = const-functions
 
 CXX      = clang++
 CXXFLAGS = -std=c++2a -O2 -g -pedantic -Wall -Wextra -Werror
@@ -6,7 +6,7 @@ CXXFLAGS = -std=c++2a -O2 -g -pedantic -Wall -Wextra -Werror
 LD       = clang++
 LDFLAGS  =
 
-BIN      = bin
+BIN      = ../bin
 SRC      = src
 OBJ      = build
 BUILD    = $(OBJ)

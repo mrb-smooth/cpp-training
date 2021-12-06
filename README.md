@@ -15,16 +15,16 @@
 - [x] Matrix Multiplication
 
 ## Week 2 (December 13 - 19, 2021)
-### Day 1
+### <a href="./Week-2/Day-1">Day 1</a>
 - [ ] Float Precision
-- [ ] Const/Non-const Functions
-### Day 2
-- [ ] Fibonacci series and recursion
-- [ ] Integer Overflow
-### Day 3
-- [ ] Method pointers (__thiscall)
-### Day 4
-- [ ] Rvalue References
-- [ ] Merge Sort (class)
-### Day 5
+- [x] Const/Non-const Functions
+### <a href="./Week-2/Day-2">Day 2</a>
+- [x] Fibonacci series and recursion
+- [x] Integer Overflow
+### <a href="./Week-2/Day-3">Day 3</a>
+- [x] Method pointers (__thiscall)
+### <a href="./Week-2/Day-4">Day 4</a>
+- [x] Rvalue References
+- [x] Merge Sort (class)
+### <a href="./Week-2/Day-5">Day 5</a>
 - [ ] "Static and Singleton(ish)"

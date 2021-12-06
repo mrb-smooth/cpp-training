@@ -28,12 +28,14 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <ctime>
 
 struct Student {
 
     std::string studentId; // studentId is unique
-    int         score; // between [1..100]
-    bool comparator(Student x, Student y); // returns true if score of x is less than score of y
+    int score;             // between [1..100]
+
+    // bool comparator(Student x, Student y); // returns true if score of x is less than score of y
 
 };
 
@@ -44,6 +46,7 @@ class MergeSort {
 
     private:
         void private_sort();
+
 };
 
 int main() {

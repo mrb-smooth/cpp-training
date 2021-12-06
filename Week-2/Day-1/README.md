@@ -19,3 +19,10 @@ The two functions should have the following signature:
 
 void myfunc(float f);
 void myfunc(float f) const;
+
+### Build & Run
+```bash
+make
+echo "1 8 " | ./bin/float-precision
+./bin/const-functions
+```

@@ -2,6 +2,7 @@ PROJECT  = hello-world
 
 CXX      = clang++
 CXXFLAGS = -std=c++2a -O2 -g -pedantic -Wall -Wextra -Werror
+
 LD       = clang++
 LDFLAGS  =
 
