@@ -7,11 +7,12 @@ LD       = clang++
 LDFLAGS  =
 
 BIN      = bin
+BUILD    = build
+
 SRC      = src
 OBJ      = build
-BUILD    = $(OBJ)
 SOURCES  = $(wildcard $(SRC)/*.cpp)
-OBJECTS  = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.obj, $(SOURCES))
+OBJECTS  = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.obj,$(SOURCES))
 
 INCLUDE  = include
 INCLUDES = $(addprefix -I,$(INCLUDE))
@@ -33,3 +34,7 @@ $(BUILD):
 clean:
 	rm -fr bin/*
 	rm -fr build/*
+
+extra-clean:
+	rm -fr bin
+	rm -fr build
