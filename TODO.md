@@ -2,27 +2,30 @@
     - [x] Week 1 Day 1
     - [x] Week 1 Day 2
     - [x] Week 1 Day 3
-    - [ ] Week 1 Day 4
-    - [ ] Week 1 Day 5
-    - [ ] Week 2 Day 1
-    - [ ] Week 2 Day 2
-    - [ ] Week 2 Day 3
-    - [ ] Week 2 Day 4
-    - [ ] Week 2 Day 5
+    - [x] Week 1 Day 4
+    - [x] Week 1 Day 5
+    - [x] Week 2 Day 1
+    - [x] Week 2 Day 2
+    - [x] Week 2 Day 3
+    - [x] Week 2 Day 4
+    - [x] Week 2 Day 5
 
 - Solutions
-    - [ ] Week 1 Day 1
-    - [ ] Week 1 Day 2
-    - [ ] Week 1 Day 3
-    - [ ] Week 1 Day 4
-    - [ ] Week 1 Day 5
+    - [x] Week 1 Day 1
+    - [x] Week 1 Day 2
+    - [x] Week 1 Day 3
+    - [x] Week 1 Day 4
+    - [x] Week 1 Day 5
     - [ ] Week 2 Day 1
-    - [ ] Week 2 Day 2
-    - [ ] Week 2 Day 3
+    - [x] Week 2 Day 2
+    - [x] Week 2 Day 3
     - [ ] Week 2 Day 4
     - [ ] Week 2 Day 5
 
 - Templates
-    - [ ] Makefile
+    - [x] Makefile
     - [ ] CMake
-    - [ ] Setup Script (project structure)
+
+- Scripts
+    - [x] Setup Script (project structure)
+    - [x] Run Script (Spin up Dockerized environment)
