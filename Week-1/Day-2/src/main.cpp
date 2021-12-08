@@ -21,14 +21,30 @@ int main() {
     std::cout << "size of y:\t" << sizeof(y) << std::endl;
     std::cout << "size of z:\t" << sizeof(z) << "\n" << std::endl;
 
-    int a_i = 0x6FFFFFFF;
-    float a_f = *(float *)(&a_i);
-    std::cout << "Floating point accuracy demonstation:\n";
-    std::cout << "Large float initial value: " << a_f << "\n\n";
+    // Small float
+    float small_num_f = 5.f;
+
+    std::cout << "Floating point accuracy demonstration for small floating point numbers:\n";
+    std::cout << "Small float initial value: " << small_num_f << "\n\n";
     for (int i = 1; i <= 3; i++)
     {
         float temp = i * 10000000;
-        std:: cout << a_f << " - " << temp << " = " << a_f - temp << "\n";
+        std::cout << small_num_f << " - " << temp << " = " << small_num_f - temp << "\n";
+        std::cout << "small_num_f - i * 10000000 == small_num_f: " << (small_num_f - temp == small_num_f ? "True" : "False") << "\n\n";
+    }
+    std::cout << "\n";
+
+    // Bit hacking for large float
+    int large_num_i = 0x6FFFFFFF;
+    float large_num_f = *(float *)(&large_num_i);
+
+    std::cout << "Floating point accuracy demonstration for large floating point numbers:\n";
+    std::cout << "Large float initial value: " << large_num_f << "\n\n";
+    for (int i = 1; i <= 3; i++)
+    {
+        float temp = i * 10000000;
+        std::cout << large_num_f << " - " << temp << " = " << large_num_f - temp << "\n";
+        std::cout << "large_num_f - i * 10000000 == large_num_f: " << (large_num_f - temp == large_num_f ? "True" : "False") << "\n\n";
     }
     std::cout << "\n";
 
