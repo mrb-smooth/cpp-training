@@ -1,10 +1,10 @@
 /**
  * Creator: VPR
  * Created: December 5, 2021
- * Updated: December 5, 2021
+ * Updated: December 11, 2021
  *
  * Description:
- *    [ ] Matrix stuff 
+ *    [x] Matrix stuff 
 **/
 
 #include <iostream>
@@ -16,19 +16,19 @@ typedef std::vector<std::vector<int>> matrix;
 matrix GenerateMatrix(int, int);
 bool IsValidPair(matrix, matrix);
 void DisplayMatrix(matrix);
-matrix GetMatrixProduct(matrix, matrix);
+matrix GetMatrixCrossProduct(matrix, matrix);
 
 int main() {
 
     srand(time(NULL));
 
-    matrix m_a = GenerateMatrix(5, 6);
+    matrix m_a = GenerateMatrix(6, 5);
     matrix m_b = GenerateMatrix(5, 6);
 
     if (IsValidPair(m_a, m_b)) {
         std::cout << "Valid matrices.\n";
     } else {
-        std::cerr << "Valid matrices.\n";
+        std::cerr << "Invalid matrices.\n";
         return -1;
     }
 
@@ -37,7 +37,7 @@ int main() {
     std::cout << "Matrix b:\n";
     DisplayMatrix(m_b);
     std::cout << "Product of Matrices a and b:\n";
-    DisplayMatrix(GetMatrixProduct(m_a, m_b));
+    DisplayMatrix(GetMatrixCrossProduct(m_a, m_b));
 
     return 0;
 }
@@ -57,14 +57,9 @@ matrix GenerateMatrix(int row, int col) {
 
 bool IsValidPair(matrix a, matrix b) {
 
-    // Make sure size of matrix is the same
-    if (a.size() != b.size()) {
-        return false;
-    }
-
     // Make sure sizes of sub-vectors are the same
     for (unsigned i = 0; i < a.size(); i++) {
-        if (a[i].size() != b[i].size()) {
+        if (a[i].size() != b.size()) {
             return false;
         }
     }
@@ -76,7 +71,7 @@ void DisplayMatrix(matrix m) {
 
     for (const auto& i : m) {
         for (const auto& v: i) {
-            std::cout << v << (v < 10 ? "  " : " ");
+            std::cout << v << (v < 100 ? (v < 10 ? "   " : "  ") : " ");
         }
         std::cout << "\n";
     }
@@ -84,13 +79,23 @@ void DisplayMatrix(matrix m) {
 
 }
 
-matrix GetMatrixProduct(matrix a, matrix b) {
+matrix GetMatrixCrossProduct(matrix a, matrix b) {
 
     matrix result(a.size());
 
-    for (unsigned i = 0; i < a.size(); i++) {
-        for (unsigned j = 0; j < a[i].size(); j++) {
-            result[i].push_back(a[i][j] * b[i][j]);
+    // Zero Matrix
+    for (auto& v : result) {
+        for (unsigned i = 0; i < a.size(); i++) {
+            v.push_back(i * 0);
+        }
+    }
+
+    // Calculate cross product
+    for (unsigned i = 0; i < result.size(); i++) {
+        for (unsigned j = 0; j < a.size(); j++) {
+            for (unsigned k = 0; k < b.size(); k++) {
+                result[i][j] += a[i][k] * b[k][j];
+            }
         }
     }
 
