@@ -81,14 +81,8 @@ void DisplayMatrix(matrix m) {
 
 matrix GetMatrixCrossProduct(matrix a, matrix b) {
 
-    matrix result(a.size());
-
-    // Zero Matrix
-    for (auto& v : result) {
-        for (unsigned i = 0; i < a.size(); i++) {
-            v.push_back(i * 0);
-        }
-    }
+    // Initialize zeroed matrix
+    matrix result(a.size(), std::vector<int>(a.size(), 0));
 
     // Calculate cross product
     for (unsigned i = 0; i < result.size(); i++) {
