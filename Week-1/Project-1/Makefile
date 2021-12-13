@@ -36,7 +36,7 @@ data.csv:
 .PHONY: tests
 tests: data.csv
 	$(CXX) $(CXXFLAGS) -Iinclude -Itests \
-	tests/*.cpp src/Authentication.cpp src/Client.cpp src/DataBase.cpp \
+	tests/*.cpp src/Authentication.cpp src/DataBase.cpp \
 	-o run-tests
 
 $(BIN):
@@ -48,8 +48,10 @@ $(BUILD):
 clean:
 	rm -fr bin/*
 	rm -fr build/*
+	rm -f  run-tests
 
 extra-clean:
 	rm -fr bin
 	rm -fr build
+	rm -f  run-tests
 	rm -f data.csv

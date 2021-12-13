@@ -1,17 +1,6 @@
-# Week 1 Assignment: Implement a command line banking console for admin.
-
-## Rules
-* The code must be compilable with clang++ c++17 compiler on a Centos 8 or similar OS.
-* Must have a way to build using make, cmake or something similar.
-* The code needs to work in command line and self-contained and no external dependencies.
-* Must include tests which should be runnable.
+# Overview
 
 ## Details
-We will restrict the usage to "administrators" only for now. An administrator is a single user
-with all privileges.
-
-The usage of your C++ built application should be:
-
 Usage: bankcli <file-name>
 
 The <file-name> is dummy for now. No information will be saved.

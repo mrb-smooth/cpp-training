@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     // Initialize dataBase
     db::DataBase dataBase(file_name);
     
-    //auth::login();          // Verify username and password
+    auth::login();          // Verify username and password
     client::app(dataBase);  // Main loop 
 
     return 0;
