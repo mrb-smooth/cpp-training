@@ -1,9 +1,24 @@
-#include "prompt.hpp"
+#include "Authentication.hpp"
+#include "DataBase.hpp"
+#include "Client.hpp"
+#include "Utils.hpp"
 
-int main() {
+std::string file_name;
 
-    login(); // verify username and password
-    prompt(); // Main loop for commands
+int main(int argc, char* argv[]) {
+
+    if (argc < 2) {
+        __usage_error(argv[0]);
+        return -1;
+    } else {
+        file_name = argv[1];
+    }
+
+    // Initialize dataBase
+    db::DataBase dataBase(file_name);
+    
+    //auth::login();          // Verify username and password
+    client::app(dataBase);  // Main loop 
 
     return 0;
 }
