@@ -1,13 +1,14 @@
 /**
  * Creator: VPR
- * Created: December 5, 2021
- * Updated: December 5, 2021
+ * Created: December 5th, 2021
+ * Updated: December 13th, 2021
  *
  * Description:
- *     - [ ] Floating point magic
+ *     - [x] Floating point magic
 **/
 
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 
 struct dType {
@@ -22,22 +23,30 @@ int main() {
     double divisor;
     double x;
 
+    // Get numerator
     std::cout << "Enter a two numbers (integers or floating point numbers):\n";
     std::cout << "Numerator: ";
     std::cin >> numerator;
     std::cout << std::endl;
+
+    // Get divisor
     std::cout << "Divisor: ";
     std::cin >> divisor;
     std::cout << std::endl;
 
+    if (divisor == 0) {
+        std::cerr << "cmon bruh";
+    }
+
     x = numerator / divisor;
 
-    // Formula = J / (2^N)
-    // J = 450828337098296
-    // N = 55
-    // J = (2 ^ N ) = 0.125129999999999963478103381930850446224212646484375
-    std::cout << x << ": mantissa = "     << std::pow(10, (*(dType *)&x).bits) << std::endl;
-    std::cout << x << ": exponent = " << (*(dType *)&x).exponent - 1023 << std::endl;
+    dType converted_x = *reinterpret_cast<dType *>(&x);
+    unsigned long j_bits = (converted_x.bits ? converted_x.bits : 1);
+    int exp = converted_x.exponent - 1023;
+
+    std::cout << x << ": J = "        << j_bits << std::endl;
+    std::cout << x << ": exponent = " << exp << std::endl;
+    std::cout << x << ": approximate value = " << std::setprecision(15) << j_bits * std::pow(2, exp) << std::endl;
 
     return 0;
 }

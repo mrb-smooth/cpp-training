@@ -23,6 +23,6 @@ void myfunc(float f) const;
 ### Build & Run
 ```bash
 make
-echo "1 8 " | ./bin/float-precision
+echo "44 43" | ./bin/float-precision
 ./bin/const-functions
 ```
