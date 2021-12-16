@@ -143,14 +143,14 @@ void db::DataBase::show_accounts() const {
 
 }
 
-bool db::DataBase::populate_database(std::string file_name) {
+bool db::DataBase::populate_database(std::string _file_name) {
 
-    std::ifstream fs(file_name);
+    std::ifstream fs(_file_name);
     if (!fs) {
-        std::cerr << "Could not open '" << file_name << "'.\n";
+        std::cerr << "Could not open '" << _file_name << "'.\n";
         return false;
     } else {
-        std::cout << "Extracting data from '" << file_name << "'.\n";
+        std::cout << "Extracting data from '" << _file_name << "'.\n";
     }
 
     // Iterate through file
@@ -177,7 +177,7 @@ bool db::DataBase::populate_database(std::string file_name) {
         data[account_id] = result;
     }
 
-    std::cout << "Data extracted from '" << file_name << "'.\n"
+    std::cout << "Data extracted from '" << _file_name << "'.\n"
               << "\n" << std::flush;
 
     return true;
