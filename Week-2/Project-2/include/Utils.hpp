@@ -3,7 +3,11 @@
 
 #include <iostream>
 
-void _Noreturn __usage_error(const char* exe) {
+void
+//#ifdef __GNUC__
+_Noreturn
+//#endif
+__usage_error(const char* exe) {
 
     std::cerr << "Usage error.\n"
                  "\n"

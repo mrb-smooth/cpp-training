@@ -1,2 +1,21 @@
 # Compiled files
+*.a
+*.o
+*.so
+*.exe
+*.lib
+*.obj
+*.out
+
+# Deps
+build/_deps
+
+# Folders
+bin
+out
+lib
+build
+
+# Executables
+bank-cli-2
 run-tests

@@ -1,18 +1,44 @@
-# Overview
+# Week 2 Assignment: Implement a command line banking console for admin.
+
+## Introduction
+
+This is an extension to last week's project with the following additions:
+
+- [ ] Add security.
+- [ ] Add transactions.
+- [ ] Add persistence and state. (Using google protobufs).
+- [ ] Add for serialization/deserialization to a protobufs "database".
+- [ ] Add error logging.
+
+## Rules
+- [x] The code must be compilable with clang++ c++17 compiler on a Centos 8 or similar OS.
+- [x] Must have a way to build using make, cmake or something similar.
+- [x] The code needs to work in command line and self-contained and no external dependencies.
+- [ ] Must include tests which should be runnable.
 
 ## Details
+We will restrict the usage to "administrators" only for now.
+
+The usage should be:
+
 Usage: bankcli <file-name>
 
-The <file-name> is dummy for now. No information will be saved.
+The <file-name> is the protobuf serializable. You will need to design the layout of the proto file.
+Design a proto schema that works with your assignment submission.
 
-It should prompt for a username and password.
+Upon startup, the program will read the file specified by <file-name> and load all the account information. This
+information is your database, and can be modified with your program. So if you add new accounts,
+upon exiting the program, the proto file will reflect that change.
+
+Use the google protobufs C++ library.
+
+It should prompt for a username and password. The user and passwd must both be "demo".
 
 user: <user>
 password: <passwd>
 
-Fix this:
-You can embed the password in your ELF for now. This really can be encrypted with a solid
-AES 256 bit encryption key. (For first week evaluation, this is optional).
+You can embed the password in your ELF for now. This really should be encrypted with a solid
+AES 256 bit encryption key, but for purposes of this class, we will relax that requirement!.
 
 If authentication succeeds, you will show the console prompt, or else you will display
 message "Incorrect user" and ask for the user again in a while loop. Here is the console prompt:
@@ -50,6 +76,23 @@ At the console prompt you should be able to enter the following commands:
      SSN: With only last 4 digits displayed
      Date Opened:
      Account:
+
+     Add Transaction >
+     Home >
+
+     At this point you have the ability to add a new transaction or go back to Home screen.
+
+### "add transaction"
+
+   - this should take the following input:
+
+     Amount:
+     Debit/Credit: <debit/credit>:
+     
+     If the debit is greater than the balance, it will show an error message "Insufficient balance".
+     and bring you back to "display account". 
+
+     If the debit is smaller than the balance, it will add the transaction and update the balance.
 
 ### "search name"
 
@@ -93,4 +136,16 @@ At the console prompt you should be able to enter the following commands:
     Do process error message and ask for confirmation to close account with a yes or no.
 
 ### "quit"
-  - This should quit the program.
+  - This should quit the program. This is a good time to save all the account information into the proto file.
+
+
+## Checklist
+
+As part of this project you may create the following C++ classes (modify them as per your design):
+
+```
+Account
+Customer
+ProtoReadWrite - Read/write the proto file (serialization)
+Transaction
+```

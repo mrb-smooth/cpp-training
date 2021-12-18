@@ -12,7 +12,7 @@
   - [x] "new account"
   - [x] "close account"
   - [x] "quit"
-  - [x] Must include tests which should be runnable.
+  - [ ] Must include tests which should be runnable.
 
 ## TODONE
 - [x] The code must be compilable with clang++ c++17 compiler on a Centos 8 or similar OS.

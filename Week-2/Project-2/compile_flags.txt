@@ -1,5 +1,6 @@
 -std=c++17
 -Iinclude
+-isystembuild/_deps/protobuf-src/src
 -Wall
 -Wextra
 -Werror

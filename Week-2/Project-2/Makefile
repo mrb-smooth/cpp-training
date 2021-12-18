@@ -1,31 +1,27 @@
 PROJECT  = bank-cli-2
 
-CXX      = clang++
-CXXFLAGS = -std=c++17 -O2 -g -Wall -Wextra -Werror -Wpedantic -Wshadow
+CMAKE    = /bin/cmake
 
-LD       = clang++
-LDFLAGS  =
+CXX      = /bin/clang++
+CXXFLAGS = -std=c++17 -O2 -g -Wall -Wextra -Werror -Wpedantic -Wshadow
 
 BIN      = bin
 BUILD    = build
 
 SRC      = src
-OBJ      = build
+OBJ      = $(BUILD)/CMakeFiles/$(PROJECT).dir/src
 SOURCES  = $(wildcard $(SRC)/*.cpp)
-OBJECTS  = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.obj,$(SOURCES))
-
-INCLUDE  = include
-INCLUDES = $(addprefix -I,$(INCLUDE))
+OBJECTS  = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.cpp.o,$(SOURCES))
 
 all: $(PROJECT)
 test: tests
 
 $(PROJECT): data.csv
 $(PROJECT): $(BIN) $(BUILD) $(OBJECTS) 
-	$(LD) $(OBJECTS) $(LDFLAGS) -o $(BIN)/$(PROJECT)
+	$(CMAKE) --build $(BUILD)
 
-$(OBJECTS): $(OBJ)/%.obj : $(SRC)/%.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $^ -o $@
+$(OBJECTS):
+	$(CMAKE) -B $(BUILD)
 
 data.csv:
 	echo "Account Id,Customer Name,Date Opened,SSN"      > $@
