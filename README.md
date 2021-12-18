@@ -13,6 +13,8 @@
 - [x] Expressions and Truths
 ### <a href="./Week-1/Day-5">Day 5</a>
 - [x] Matrix Multiplication
+### <a href="./Week-1/Project-1">Project 1</a>
+- [x] Bank CLI
 
 ## Week 2 (December 13 - 19, 2021)
 ### <a href="./Week-2/Day-1">Day 1</a>
@@ -25,4 +27,6 @@
 - [x] Method pointers (__thiscall)
 ### <a href="./Week-2/Day-4">Day 4</a>
 - [x] Rvalue References
-- [ ] Merge Sort (class)
+- [x] Merge Sort (class)
+### <a href="./Week-2/Project-2">Project 2</a>
+- [ ] Bank CLI 2
