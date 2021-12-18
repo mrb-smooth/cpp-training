@@ -42,7 +42,7 @@ private:
 
 public:
     static void sort(std::vector<Student>& students) {
-       mergeSort(students , 0 , students.size() - 1);
+        mergeSort(students , 0 , students.size() - 1);
     }
     
 private:
