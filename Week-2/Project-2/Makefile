@@ -1,9 +1,7 @@
 PROJECT  = bank-cli-2
 
 CMAKE    = /bin/cmake
-
 CXX      = /bin/clang++
-CXXFLAGS = -std=c++17 -O2 -g -Wall -Wextra -Werror -Wpedantic -Wshadow
 
 BIN      = bin
 BUILD    = build
@@ -17,10 +15,11 @@ all: $(PROJECT)
 test: tests
 
 $(PROJECT): data.csv
-$(PROJECT): $(BIN) $(BUILD) $(OBJECTS) 
+$(PROJECT): $(BIN) $(BUILD) $(OBJ) 
 	$(CMAKE) --build $(BUILD)
 
-$(OBJECTS):
+.PHONY: $(OBJ)
+$(OBJ):
 	$(CMAKE) -B $(BUILD)
 
 data.csv:
