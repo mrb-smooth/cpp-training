@@ -18,6 +18,7 @@ RUN apt-get install -y --no-install-recommends ssh \
                                                zip \
                                                unzip \
                                                build-essential \
+                                               pkg-config \
                                                clang \
                                                gdb \
                                                cscope \

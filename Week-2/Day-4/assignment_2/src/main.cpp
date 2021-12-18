@@ -32,7 +32,10 @@ struct Student
     std::string studentId;
     int score;
 
-    bool comparator(Student x, Student y) { return x.score < y.score; };
+    [[nodiscard]] auto
+    comparator(Student x, Student y) -> bool {
+        return x.score < y.score;
+    }
 };
 
 class MergeSort

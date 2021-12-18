@@ -16,12 +16,14 @@
 #define GRADE_C 20
 #define GRADE_D 10
 
-char grade(const int&& score) {
+[[nodiscard]] auto
+grade(const int&& score) -> char {
 
     return (score == GRADE_A) * 'A' +
            (score == GRADE_B) * 'B' +
            (score == GRADE_C) * 'C' +
            (score == GRADE_D) * 'D';
+
 }
 
 int main() {
