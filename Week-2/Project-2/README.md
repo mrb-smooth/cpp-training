@@ -1,7 +1,18 @@
 # Week 2 Assignment: Implement a command line banking console for admin.
 
-## Introduction
+## Installation
+### Build & Run Environment
+```bash
+./build-image.sh # requires docker
+./run-image.sh
+```
+## Building
+```bash
+make
+./bin/bank-cli-2 "path/to/protobuf"
+```
 
+## Introduction
 This is an extension to last week's project with the following additions:
 
 - [ ] Add security.

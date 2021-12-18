@@ -37,7 +37,7 @@ void auth::login() {
 // TODO: Save username somewhere
 bool auth::verify_username(std::string username) {
 
-    if (!username.compare("admin")) {
+    if (!username.compare("demo")) {
         return true;
     }
 
@@ -47,7 +47,7 @@ bool auth::verify_username(std::string username) {
 // TODO: Save password somewhere
 bool auth::verify_password(std::string password) {
 
-    if (!password.compare("password")) {
+    if (!password.compare("demo")) {
         return true;
     }
 
