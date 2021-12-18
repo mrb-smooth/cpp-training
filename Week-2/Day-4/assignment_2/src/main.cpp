@@ -42,73 +42,79 @@ private:
 
 public:
     static void sort(std::vector<Student>& students) {
-       mergeSort(students , 0 , students.size()-1);
+       mergeSort(students , 0 , students.size() - 1);
     }
     
 private:
-    static void merge(std::vector<Student>& students, int start , int mid , int end) {
+    static void mergeSort(std::vector<Student>& students,
+                          unsigned start , unsigned end) {
+
+        // Splitting vectors into halves
+        if (start < end) {
+            unsigned mid = (start + end) / 2;
+            mergeSort(students, start, mid);
+            mergeSort(students, mid + 1, end);
+            merge(students, start , mid, end);
+        }
+
+    }
+
+    static void merge(std::vector<Student>& students,
+                      unsigned start, unsigned mid, unsigned end) {
 
         std::vector<Student> tmp;
         
-        int i = start;
-        int j = mid + 1;
+        unsigned i = start;
+        unsigned j = mid + 1;
         
         while (i <= mid && j <= end) {
-            if (call.comparator(students[i] , students[j])) {
+            if (call.comparator(students[i], students[j])) {
                 tmp.push_back(students[i]);
-                ++i;
+                i++;
             } else {
                 tmp.push_back(students[j]);
-                ++j;
+                j++;
             }
         }
         
         while (i <= mid) {
             tmp.push_back(students[i]);
-            ++i;
+            i++;
         }
 
         while (j <= end) {
             tmp.push_back(students[j]);
-            ++j;
+            j++;
         }
         
-        for (int i = start; i <= end; ++i) {
+        for (unsigned i = start; i <= end; i++) {
             students[i].studentId = tmp[i - start].studentId;
-            students[i].score = tmp[i-start].score;
+            students[i].score     = tmp[i - start].score;
         }
+
     }
     
-    // Spliting vectors into halves
-    static void mergeSort(std::vector<Student>& students,  int start , int end) {
-        if (start < end) {
-            int mid = (start + end) / 2;
-            mergeSort(students, start, mid);
-            mergeSort(students, mid + 1, end);
-            merge(students, start , mid, end);
-        }
-    }
-
 };
 
 int main() {
 
     // Initialize students vector
     auto students = std::vector<Student>({
-        Student{ "Josh", 90 },
-        Student{ "VPR", 100 },
-        Student{ "Manoj", 60 },
-        Student{ "Jordan", 70 },
-        Student{ "Calvin", 80 },
+        Student{ "Josh",     90  },
+        Student{ "VPR",      100 },
+        Student{ "Muhammad", 60  },
+        Student{ "Jordan",   70  },
+        Student{ "Calvin",   80  },
     });
 
     // MergeSort madness
     MergeSort::sort(students);
     
     // Display results
+    std::cout << "Name\t\tScore\n";
     for (const auto& s : students) {
         std::cout << s.studentId
-                  << (s.studentId.size() < 7 ? "\t" : "\t\t")
+                  << (s.studentId.size() < 7 ? "\t\t" : "\t")
                   << s.score << "\n";
     }
 
