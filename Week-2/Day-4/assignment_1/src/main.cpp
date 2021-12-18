@@ -29,9 +29,9 @@ int main() {
     std::cout << "Calculate scores with no if statements:\n\n";
 
     int scores[4] = { 10, 30, 20, 20 };
-    for (const auto& score : scores) {
-        auto f = [&score]{ return score; };
-        std::cout << "Grade of " << score << " = " << grade( f() ) << std::endl;
+    for (const auto& x : scores) {
+        auto f = [](auto x){ return x; };
+        std::cout << "Grade of " << x << " = " << grade( f(x) ) << std::endl;
     }
 
     return 0;
