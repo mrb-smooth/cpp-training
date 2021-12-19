@@ -1,7 +1,5 @@
 #include "Logging.hpp"
 
-const std::string logging::Logger::log_path = "Logs";
-
 [[nodiscard]] auto
 logging::Logger::get_current_time() -> std::string {
 

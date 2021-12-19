@@ -65,11 +65,6 @@ bool db::DataBase::add_account(std::string full_name, std::string social_securit
     // Verify that data is unique
     log_info("Verifying that data is unique...");
     bool bDuplicate = false;
-
-    std::cout << &data << "idk\n" << std::endl;
-    std::cout << data.size() << "size\n" << std::endl;
-    getchar();
-
     for (auto [account_id, account_values] : data) {
         if (account_values.full_name() == full_name) {
             log_warning("Existing Account with name '" + full_name + "' found.");
@@ -89,11 +84,8 @@ bool db::DataBase::add_account(std::string full_name, std::string social_securit
         }
     }
     
-    // Pouplate values
+    // Populate values
     log_info("Attempting to populate database with new account...");
-    //data.at(account_id).set_full_name(full_name);
-    //data.at(account_id).set_date_created_dt(get_current_time());
-    //data.at(account_id).set_social_security(social_security);
     data[account_id].set_full_name(full_name);
     data[account_id].set_date_created_dt(get_current_time());
     data[account_id].set_social_security(social_security);
@@ -104,9 +96,9 @@ bool db::DataBase::add_account(std::string full_name, std::string social_securit
 
     if (update_database()) {
         return true;
-    } else {
-        return false;
     }
+    
+    return false;
 }
 
 std::string db::DataBase::get_name_by_account_id(unsigned account_id) const {
@@ -200,39 +192,69 @@ void db::DataBase::show_accounts() const {
 }
 
 [[nodiscard]] auto
-db::DataBase::update_database() -> bool {
+db::DataBase::generate_database() -> bool {
 
-    log_info("Attempting to save data to '" + data_source + "'...");
-    std::fstream fs(data_source, std::ios::out | std::ios::trunc | std::ios::binary);
+    log_info("Attempting to generate data for '" + data_source + "'...");
+    std::ofstream ofs(data_source, std::ios::out | std::ios::trunc | std::ios::binary);
 
-    if (db.SerializeToOstream(&fs)) {
-        log_info("Successfully saved data to '" + data_source + "'.");
+    // Hardcoded data
+    data[1123456789].set_full_name("John Doe");
+    data[1123456789].set_social_security("155-55-5555");
+    data[1123456789].set_date_created_dt("2021-19-2021");
+
+    data[2123456789].set_full_name("Jane Doe");
+    data[2123456789].set_social_security("255-55-5555");
+    data[2123456789].set_date_created_dt("2021-19-2021");
+
+    data[3123456789].set_full_name("George Doe");
+    data[3123456789].set_social_security("355-55-5555");
+    data[3123456789].set_date_created_dt("2021-19-2021");
+
+    if (db.SerializeToOstream(&ofs); data.size()) {
+        log_info("Successfully generated data for '" + data_source + "'.");
         return true;
     } 
 
-    log_warning("Failed to save data to '" + data_source + "'.");
+    log_warning("Failed to generate data for '" + data_source + "'.");
+    return false;
+}
+
+[[nodiscard]] auto
+db::DataBase::update_database() -> bool {
+
+    log_info("Attempting to update data for '" + data_source + "'...");
+    std::ofstream ofs(data_source, std::ios::out | std::ios::trunc | std::ios::binary);
+
+    if (db.SerializeToOstream(&ofs)) {
+        log_info("Successfully updated data for '" + data_source + "'.");
+        return true;
+    } 
+
+    log_warning("Failed to update data for '" + data_source + "'.");
     return false;
 }
 
 [[nodiscard]] auto
 db::DataBase::populate_database() -> bool {
 
-    std::ifstream is(data_source);
-    if (!is) {
+    std::ifstream ifs(data_source);
+    if (!ifs) {
         std::cerr << "Could not open '" << data_source << "'.\n";
         return false;
     }
 
-    std::cout << "Extracting data from '" << data_source << "'.\n";
-    log_info("Attempting to parse database '" + data_source + "'...");
-    if (db.ParseFromIstream(&is)) {
-        log_info("Successfully parsed data from '" + data_source + "'.");
-    } 
-    
-    std::cout << "Data extracted from '" << data_source << "'.\n"
-              << "\n" << std::flush;
+    log_info("Attempting to parse data from '" + data_source + "'...");
+    if (!db.ParseFromIstream(&ifs)) {
+        log_warning("Failed to read data from '" + data_source + "'.");
+        return false;
+    }
 
-    log_info("Successfully populated database using '" + data_source + "'.");
+    if (!data.size()) {
+        log_warning("Failed to parse data from '" + data_source + "'.");
+        return false;
+    }
+
+    log_info("Successfully parsed data from '" + data_source + "'.");
 
     return true;
 }

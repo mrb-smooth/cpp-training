@@ -24,10 +24,7 @@ dependencies:
 
 data.db:
 	mkdir -p Data
-	echo "Account Id,Customer Name,Date Opened,SSN"      > Data/$@
-	echo "1123456789,John Doe,2021-12-13,155-55-5555"   >> Data/$@
-	echo "2123456789,Jane Doe,2021-12-13,255-55-5555"   >> Data/$@
-	echo "3123456789,George Doe,2021-12-13,355-55-5555" >> Data/$@
+	echo -e "\n" > Data/$@
 
 .PHONY: tests
 tests: data.csv

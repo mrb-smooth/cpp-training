@@ -21,21 +21,19 @@ public:
     std::string data_source;
     google::protobuf::Map<uint64_t, pb::Account>& data;
 public:
-    DataBase(std::string data_source, pb::Accounts& db)
-        : logging::Logger(), db(db), data_source(data_source), data(*db.mutable_accounts()) {
-
-        for (int i = 0; i < 5; i++) {
-            data[i].set_full_name("Malik Booker");
-            data[i].set_social_security("555-55-5555");
-            data[i].set_date_created_dt("Now");
-        }
+    DataBase(std::string_view data_source, pb::Accounts& db)
+        : logging::Logger(), db(db), data_source(data_source), data(*db.mutable_accounts())
+    {
 
         if (!populate_database()) {
-            log_error("Failed to parse database: '" + data_source + "'.");
+            log_info("Generating a new database...");
+            generate_database();
         }
 
     }
-    ~DataBase() { }
+    ~DataBase()
+    {
+    }
 public: // Const
     std::vector<unsigned> search_name(const std::string& name) const;
     std::string get_name_by_account_id(unsigned account_id) const;
@@ -53,6 +51,7 @@ public: // Inherited
     void log_warning(const std::string_view& warning) const;
 private: // Private
     bool update_database();
+    bool generate_database();
     bool populate_database();
 };
 
