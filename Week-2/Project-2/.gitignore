@@ -27,4 +27,4 @@ run-tests
 
 # Misc
 Data
-./compile_flags.txt
+compile_flags.txt
