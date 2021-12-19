@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package db;
+
+message Accounts
+{
+    uint32 account_number=1;
+    string dt_date_created=2;
+    string full_name=3;
+    string ssn=4;
+}

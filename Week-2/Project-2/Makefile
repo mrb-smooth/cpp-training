@@ -3,30 +3,31 @@ PROJECT  = bank-cli-2
 CMAKE    = /bin/cmake
 CXX      = /bin/clang++
 
-BIN      = bin
-BUILD    = build
+BIN      = Bin
+BUILD    = Build
 
-SRC      = src
-OBJ      = $(BUILD)/CMakeFiles/$(PROJECT).dir/src
+SRC      = Sources
+OBJ      = $(BUILD)/CMakeFiles/$(PROJECT).dir/$(SRC)
 SOURCES  = $(wildcard $(SRC)/*.cpp)
 OBJECTS  = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.cpp.o,$(SOURCES))
 
 all: $(PROJECT)
 test: tests
 
-$(PROJECT): data.csv
-$(PROJECT): $(BIN) $(BUILD) $(OBJ) 
+$(PROJECT): data.db
+$(PROJECT): $(BIN) $(BUILD) dependencies
 	$(CMAKE) --build $(BUILD)
 
-.PHONY: $(OBJ)
-$(OBJ):
+.PHONY: dependencies
+dependencies:
 	$(CMAKE) -B $(BUILD)
 
-data.csv:
-	echo "Account Id,Customer Name,Date Opened,SSN"      > $@
-	echo "1123456789,John Doe,2021-12-13,155-55-5555"   >> $@
-	echo "2123456789,Jane Doe,2021-12-13,255-55-5555"   >> $@
-	echo "3123456789,George Doe,2021-12-13,355-55-5555" >> $@
+data.db:
+	mkdir -p Data
+	echo "Account Id,Customer Name,Date Opened,SSN"      > Data/$@
+	echo "1123456789,John Doe,2021-12-13,155-55-5555"   >> Data/$@
+	echo "2123456789,Jane Doe,2021-12-13,255-55-5555"   >> Data/$@
+	echo "3123456789,George Doe,2021-12-13,355-55-5555" >> Data/$@
 
 .PHONY: tests
 tests: data.csv

@@ -3,18 +3,19 @@
 ## Installation
 ### Build & Run Environment
 ```bash
-./build-image.sh # requires docker
-./run-image.sh
+# Requires Docker
+Scripts/build-image.sh 
+Scripts/run-image.sh
 ```
 ## Building
 ```bash
+cd /root/project-2 # Execute only if in docker
 make
-./bin/bank-cli-2 "path/to/protobuf"
+./bin/bank-cli-2 "Data/Accounts.db"
 ```
 
-## Introduction
+## Overview
 This is an extension to last week's project with the following additions:
-
 - [ ] Add security.
 - [ ] Add transactions.
 - [ ] Add persistence and state. (Using google protobufs).

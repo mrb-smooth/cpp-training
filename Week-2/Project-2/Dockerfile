@@ -20,6 +20,7 @@ RUN apt-get install -y --no-install-recommends ssh \
                                                unzip \
                                                autoconf \
                                                automake \
+                                               cmake \
                                                build-essential \
                                                pkg-config \
                                                make \
@@ -34,9 +35,9 @@ RUN apt-get install -y --no-install-recommends ssh \
 RUN chsh -s /bin/zsh $(whoami)
 
 # Copy profile
-COPY .profile /root/.profile
-COPY .vimrc /root/.vimrc
-COPY .zshrc /root/.zshrc
+COPY Resources/.profile /root/.profile
+COPY Resources/.vimrc /root/.vimrc
+COPY Resources/.zshrc /root/.zshrc
 
 # Set compiler variables
 ENV CC=/bin/clang

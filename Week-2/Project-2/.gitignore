@@ -9,13 +9,22 @@
 
 # Deps
 build/_deps
+Build/_deps
 
 # Folders
 bin
 out
 lib
 build
+Bin
+Out
+Lib
+Build
 
 # Executables
 bank-cli-2
 run-tests
+
+# Misc
+Data
+./compile_flags.txt

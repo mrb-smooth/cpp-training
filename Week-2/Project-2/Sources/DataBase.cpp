@@ -182,3 +182,13 @@ bool db::DataBase::populate_database(std::string _file_name) {
 
     return true;
 }
+
+void db::DataBase::log_info(std::string info) {
+    std::cerr << info << std::endl;
+}
+void db::DataBase::log_error(std::string error) {
+    std::cerr << error << std::endl;
+}
+void db::DataBase::log_warning(std::string warning) {
+    std::cerr << warning << std::endl;
+}

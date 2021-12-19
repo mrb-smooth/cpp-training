@@ -44,8 +44,7 @@ function findall {
 alias z="zsh"
 alias t="tmux"
 alias c="clear"
-alias vim="nvim"
-#
+
 # ls aliases
 alias ls="ls --color --group-directories-first"
 alias la="ls --color --group-directories-first -A"
