@@ -1,13 +1,13 @@
 # Week 2 Assignment: Implement a command line banking console for admin.
 
 ## Installation
-### Build & Run Environment
+### Build & Run Docker Environment
 ```bash
 # Requires Docker
 Scripts/build-image.sh 
 Scripts/run-image.sh
 ```
-## Building
+### Building Application
 ```bash
 cd /root/project-2 # Execute only if in docker
 make

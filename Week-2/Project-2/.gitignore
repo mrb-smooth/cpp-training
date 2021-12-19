@@ -27,4 +27,6 @@ run-tests
 
 # Misc
 Data
+*.db
+*.data
 compile_flags.txt

@@ -42,12 +42,15 @@ $(BUILD):
 	mkdir -p $@
 
 clean:
-	rm -fr bin/*
-	rm -fr build/*
+	rm -fr Bin/*
+	rm -fr Build/*
+	rm -fr Logs/*
+	rm -fr Data/*
 	rm -f  run-tests
 
 extra-clean:
-	rm -fr bin
-	rm -fr build
+	rm -fr Bin
+	rm -fr Build
+	rm -fr Logs
+	rm -fr Data
 	rm -f  run-tests
-	rm -f  data.csv

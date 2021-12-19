@@ -9,10 +9,10 @@
 #define DATE_OPENED       1
 #define SOCIAL_SECURITY   2
 
-//////////////////////
-// Helper functions //
-//////////////////////
-unsigned levenshtein_distance(const std::string s1, std::string s2) {
+//////////////////////////////
+// Helper functions - start //
+//////////////////////////////
+unsigned levenshtein_distance(const std::string_view& s1, const std::string_view& s2) {
 
 	const std::size_t len1 = s1.size(), len2 = s2.size();
 	std::vector<std::vector<unsigned int>> d(len1 + 1, std::vector<unsigned int>(len2 + 1));
@@ -28,19 +28,26 @@ unsigned levenshtein_distance(const std::string s1, std::string s2) {
 
 	return d[len1][len2];
 }
+////////////////////////////
+// Helper functions - end //
+////////////////////////////
 
 bool db::DataBase::find_account(unsigned int account_id) const {
 
+    log_info("Searching for account ID: '" + std::to_string(account_id) + "'...");
     if (data.find(account_id) == data.end()) {
         std::cerr << "Error: invalid account.\n"
                   << "\n" << std::flush;
+
+        log_warning("Invalid account ID: '" + std::to_string(account_id) + "'.");
         return false;
     }
 
+    log_info("Account ID: '" + std::to_string(account_id) + "' found.");
     return true;
 }
 
-bool db::DataBase::add_account(std::string name, std::string ssn) {
+bool db::DataBase::add_account(std::string full_name, std::string social_security) {
 
     // Generate random number
     int account_id = rand() % INT32_MAX;
@@ -56,24 +63,44 @@ bool db::DataBase::add_account(std::string name, std::string ssn) {
     strftime(datetime, sizeof(datetime), "%Y-%m-%d", timeinfo);
 
     // Verify that data is unique
-    for (const auto& it : data) {
-        for (const auto& value : it.second) {
-            if (value == name || value == ssn) {
-                return false;
-            }
+    log_info("Verifying that data is unique...");
+    bool bDuplicate = false;
+    for (const auto& [account_id, account_values] : data) {
+        if (account_values.full_name == full_name) {
+            log_warning("Existing Account with name '" + full_name + "' found.");
+            bDuplicate = true;
+        }
+
+        if (account_values.social_security == social_security) {
+            log_warning("Existing Account with Social Security Number '" + social_security + "' found.");
+            bDuplicate = true;
+        }
+
+        if (bDuplicate) {
+        log_warning("Failed to create new account - Account: " + full_name +
+                 " Social Security Number: " + social_security.substr(7, 10) +
+                 " Date Created: " + datetime + ".");
+            return false;
         }
     }
     
     // Pouplate values
-    std::vector<std::string> values = { name, datetime, ssn };
-    data[account_id] = values;
+    log_info("Attempting to populate database with new account...");
+    data[account_id].full_name = full_name;
+    data[account_id].date_created_dt = get_current_time();
+    data[account_id].social_security = social_security;
+    data[account_id].transactions.clear(); 
 
+    log_info("Populated Database with new account - Account: " + full_name +
+             " Social Security Number: " + social_security.substr(7, 10) +
+             " Date Created: " + datetime + ".");
     return true;
 }
 
 std::string db::DataBase::get_name_by_account_id(unsigned account_id) const {
 
-    return data.at(account_id)[CUSTOMER_NAME];
+    log_info("Getting name of account: '" + std::to_string(account_id) + "'...");
+    return data.at(account_id).full_name;
 
 }
 
@@ -82,65 +109,80 @@ std::vector<unsigned> db::DataBase::search_name(const std::string& name) const {
     std::vector<unsigned> search_results;
 
     // Find exact
-    for (const auto& it : data) {
-        if (std::find(it.second.begin(), it.second.end(), name) != it.second.end()) {
-            search_results.push_back(it.first);
+    log_info("Searching for account with exact name: '" + name + "'...");
+    for (const auto& [account_id, account_values] : data) {
+        if (account_values.full_name == name) {
+            search_results.push_back(account_id);
+            log_info("Account with exact name found.");
+            break;
         }
     }
 
     // Find Similar
-    std::stringstream ss;
-    for (const auto& it : data) {
-        std::vector<std::string> tmp = it.second;
-
-        if (levenshtein_distance(tmp[CUSTOMER_NAME], name) < 4 &&
-            (std::find(search_results.begin(), search_results.end(), it.first) == search_results.end())) {
-
-            search_results.push_back(it.first);
+    log_info("Searching for account with similar name: '" + name + "'...");
+    for (const auto& [account_id, account_values] : data) {
+        if (levenshtein_distance(account_values.full_name, name) < 4) {
+            log_info("Account with similar name found.");
+            search_results.push_back(account_id);
         }
     }
     
+    log_info("Returning results...");
     return search_results;
 }
 
 void db::DataBase::display_account(unsigned int account_id) const {
 
+    log_info("Attempting to display account: '" + std::to_string(account_id) + "'.");
     if (data.find(account_id) == data.end()) {
         std::cerr << "Error: invalid account.\n"
                   << "\n" << std::flush;
+        log_warning("Unable find account: '" + std::to_string(account_id) + "'.");
         return;
     }
 
-    const auto& values = data.at(account_id);
-    std::cout << "Customer Name:\t" << values[CUSTOMER_NAME]   << "\n"
+    log_info("Displaying account: '" + std::to_string(account_id) + "' details.");
+    const auto& account_values = data.at(account_id);
+    std::cout << "Customer Name:\t" << account_values.full_name << "\n"
               << "SSN:\t\t"         << "***-**-"
-              << values[SOCIAL_SECURITY].substr(values[SOCIAL_SECURITY].length() - 4) << "\n"
-              << "Date Opened:\t"   << values[DATE_OPENED]     << "\n"
-              << "Account:\t"       << account_id              << "\n"
+              << account_values.social_security.substr(account_values.social_security.length() - 4) << "\n"
+              << "Date Opened:\t"   << account_values.date_created_dt << "\n"
+              << "Account:\t"       << account_id << "\n"
               << "\n" << std::flush;
 
 }
 
 void db::DataBase::close_account(unsigned int account_id) {
 
+    auto original_size = data.size();
+
+    log_info("Attempting to display account: '" + std::to_string(account_id) + "'.");
     data.erase(data.find(account_id));
+    if (original_size == data.size()) {
+        log_error("Failed to remove account: '" + std::to_string(account_id) + "'.");
+    } else {
+        log_info("Successfully removed account: '" + std::to_string(account_id) + "'.");
+    }
 
 }
 
 void db::DataBase::show_accounts() const {
 
+    log_info("Attempting to show all accounts.");
+
     // Header
     std::cout << "Customer Name\t\tAccount\t\tDate Opened\n";
 
     // Data
-    for (const auto& it : data) {
-        std::cout << it.second[CUSTOMER_NAME] << "\t\t"
-                  << it.first << "\t"
-                  << it.second[DATE_OPENED]
+    for (const auto& [account_id, account_values] : data) {
+        std::cout << account_values.full_name << "\t\t"
+                  << account_id << "\t"
+                  << account_values.date_created_dt
                   << "\n";
     }
     std::cout << "\n" << std::flush;
 
+    log_info("Successfully shown all accounts.");
 }
 
 bool db::DataBase::populate_database(std::string _file_name) {
@@ -153,42 +195,54 @@ bool db::DataBase::populate_database(std::string _file_name) {
         std::cout << "Extracting data from '" << _file_name << "'.\n";
     }
 
-    // Iterate through file
-    std::string buffer = "";
-    std::getline(fs, buffer); // discard first line
-    while (std::getline(fs, buffer)) {
-        // TOKENIZE
-        std::string account_id_buffer;
-        unsigned int account_id = 0;
-        std::vector<std::string> result;
-
-        std::stringstream ss(buffer);
-        // Extract account id
-        getline(ss, account_id_buffer, ',');
-        account_id = std::stoul(account_id_buffer);
-
-        // Extract remaining elements
-        while (ss.good()) {
-            std::string token;
-            getline(ss, token, ',');
-            result.push_back(token);
-        }
-
-        data[account_id] = result;
-    }
-
+    log_info("Attempting to populate database using '" + _file_name + "'.");
+    // TODO
+    // Take in data
+    
     std::cout << "Data extracted from '" << _file_name << "'.\n"
               << "\n" << std::flush;
+
+    log_info("Successfully populatep database using '" + _file_name + "'.");
 
     return true;
 }
 
-void db::DataBase::log_info(std::string info) {
-    std::cerr << info << std::endl;
+///////////////////////////////
+// Virtual functions - start //
+///////////////////////////////
+void db::DataBase::log_info(const std::string_view& info) const {
+
+    std::string prefix = "[" + get_current_time() + "]: ";
+    std::ofstream ofs(log_file, std::ios_base::app);
+
+    ofs << prefix << info << std::endl;
+
 }
-void db::DataBase::log_error(std::string error) {
+
+void _Noreturn db::DataBase::log_error(const std::string_view& error) const {
+
     std::cerr << error << std::endl;
+
+    std::string prefix = "[" + get_current_time() + "]: FATAL - ";
+    std::ofstream ofs(log_file, std::ios_base::app);
+
+    ofs << prefix << error << std::endl;
+
+    std::cerr << "\nCheck error log: '" << log_file << "' for more details.\n"
+              << "\nExiting...\n";
+    exit(1);
 }
-void db::DataBase::log_warning(std::string warning) {
+
+void db::DataBase::log_warning(const std::string_view& warning) const {
+
     std::cerr << warning << std::endl;
+
+    std::string prefix = "[" + get_current_time() + "]: WARNING - ";
+    std::ofstream ofs(log_file, std::ios_base::app);
+
+    ofs << prefix << warning << std::endl;
+
 }
+/////////////////////////////
+// Virtual functions - end //
+/////////////////////////////

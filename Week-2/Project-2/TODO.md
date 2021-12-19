@@ -1,5 +1,7 @@
 ## TODO
 <!--- [ ] ~~Usage~~-->
+- [ ] Convert Database from CSV to Protobuf
+
 - [x] User/Password prompt
   - [x] Username verification
   - [x] Password verification

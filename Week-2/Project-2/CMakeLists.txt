@@ -25,18 +25,16 @@ set(SOURCE_DIR Sources)
 ## Add CXX sources
 set(SOURCES
     # CXX sources
-    ${SOURCE_DIR}/Account.cpp
+    ${SOURCE_DIR}/Accounts.cpp
     ${SOURCE_DIR}/Authentication.cpp
     ${SOURCE_DIR}/Client.cpp
     ${SOURCE_DIR}/Customer.cpp
     ${SOURCE_DIR}/DataBase.cpp
     ${SOURCE_DIR}/Logging.cpp
     ${SOURCE_DIR}/Main.cpp
-    ${SOURCE_DIR}/Transaction.cpp
-    #${SOURCE_DIR}/protoballs.cpp       # GOOGLE EXAMPLE
+    ${SOURCE_DIR}/Transactions.cpp
     # CXX includes
-    ${INCLUDE_DIR}/Account.hpp
-    #${INCLUDE_DIR}/Addressbook.pb.hpp  # GOOGLE EXAMPLE
+    ${INCLUDE_DIR}/Accounts.hpp
     ${INCLUDE_DIR}/Authentication.hpp
     ${INCLUDE_DIR}/Client.hpp
     ${INCLUDE_DIR}/Customer.hpp
@@ -44,7 +42,7 @@ set(SOURCES
     ${INCLUDE_DIR}/Definitions.hpp
     ${INCLUDE_DIR}/Encryption.hpp
     ${INCLUDE_DIR}/Logging.hpp
-    ${INCLUDE_DIR}/Transaction.hpp
+    ${INCLUDE_DIR}/Transactions.hpp
     ${INCLUDE_DIR}/Utils.hpp
 )
 

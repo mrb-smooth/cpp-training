@@ -4,8 +4,15 @@ package db;
 
 message Accounts
 {
-    uint32 account_number=1;
-    string dt_date_created=2;
-    string full_name=3;
-    string ssn=4;
+    uint64 account_number=1;
+    string full_name=2;
+    string social_security=3;
+    string date_created_dt=4;
+
+    message Transactions
+    {
+        int64 amount_sent=1;
+        int64 amount_recv=2;
+        string transaction_dt=3;
+    };
 }
