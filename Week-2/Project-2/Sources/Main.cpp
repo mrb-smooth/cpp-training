@@ -22,6 +22,8 @@ std::string file_name;
 
 int main(int argc, char* argv[]) {
 
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     if (argc < 2) {
         __usage_error(argv[0]);
         return -1;
@@ -29,24 +31,18 @@ int main(int argc, char* argv[]) {
         file_name = argv[1];
     }
 
+    // Initialize protobuf
+    auto accounts = pb::Accounts();
+
     // Initialize dataBase
-    db::DataBase dataBase(file_name);
-
-    //db::Accounts a;
-    //a.set_account_number(1234567890);
-    //a.set_full_name(std::string("Test Name"));
-
-    //std::cout << a.account_number() << " " << a.full_name() << std::endl;
-
-    //std::ofstream ofs("db.data", std::ios_base::out | std::ios_base::binary);
-    //a.SerializeToOstream(&ofs);
-
-    //dataBase.log_info("Test info.");
-    //dataBase.log_warning("Test warning.");
-    //dataBase.log_error("Test error.");
+    db::DataBase dataBase(file_name, accounts);
     
     auth::login();          // Verify username and password
     client::app(dataBase);  // Main loop 
+
+    // Final write
+    std::fstream fs(argv[1]);
+    accounts.SerializeToOstream(&fs);
 
     return 0;
 }

@@ -73,7 +73,7 @@ static inline bool valid_ssn(const std::string ssn) {
     return true;
 }
 
-void client::app(db::DataBase db) {
+void client::app(db::DataBase& db) {
 
     std::string query;
 

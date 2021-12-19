@@ -17,36 +17,43 @@ namespace db {
 class db::DataBase : public logging::Logger
 {
 public:
-    std::string file_name;
-    //std::map<unsigned, std::vector<std::string>> data;
-    google::protobuf::Map<uint32_t, accounts::Account> data;
+    pb::Accounts& db;
+    std::string data_source;
+    google::protobuf::Map<uint64_t, pb::Account>& data;
 public:
-    DataBase(std::string file_name) : logging::Logger(), file_name(file_name) {
+    DataBase(std::string data_source, pb::Accounts& db)
+        : logging::Logger(), db(db), data_source(data_source), data(*db.mutable_accounts()) {
 
-        if (!populate_database(file_name)) {
-            log_error("Failed to parse database: '" + file_name + "'.");
+        for (int i = 0; i < 5; i++) {
+            data[i].set_full_name("Malik Booker");
+            data[i].set_social_security("555-55-5555");
+            data[i].set_date_created_dt("Now");
+        }
+
+        if (!populate_database()) {
+            log_error("Failed to parse database: '" + data_source + "'.");
         }
 
     }
-    ~DataBase(){}
-public:
-    std::string FileName() const { return this->file_name; }
-public:
-    bool find_account(unsigned int account) const;
-    bool add_account(std::string, std::string);
-
+    ~DataBase() { }
+public: // Const
     std::vector<unsigned> search_name(const std::string& name) const;
     std::string get_name_by_account_id(unsigned account_id) const;
 
     void display_account(unsigned int account) const;
+
+    bool find_account(unsigned int account) const;
+    bool add_account(std::string, std::string);
+public: // Non-const
     void close_account(unsigned account);
     void show_accounts() const;
-public:
+public: // Inherited
     void log_info(const std::string_view& info) const;
     void log_error(const std::string_view& error) const;
     void log_warning(const std::string_view& warning) const;
-private:
-    bool populate_database(std::string file_name);
+private: // Private
+    bool update_database();
+    bool populate_database();
 };
 
 #endif // DATABASE_HPP
