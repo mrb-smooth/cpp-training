@@ -29,4 +29,6 @@ run-tests
 Data
 *.db
 *.data
+log.txt
+logs.txt
 compile_flags.txt
