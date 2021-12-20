@@ -1,30 +1,52 @@
+#include "TestSuite.hpp"
 #include "Authentication.hpp"
-#include <cassert>
 
 using auth::verify_username;
 using auth::verify_password;
 
-void test_verify_username_correct() {
+extern unsigned g_tests_failed;
+extern unsigned g_tests_passed;
 
-    std::string username("admin");
-    assert(verify_username(username) == true);
+[[nodiscard]] auto
+test_verify_username_correct() -> bool {
 
+    bool bPassed = false;
+
+    std::string username("demo");
+    ASSERT( (bPassed = (verify_username(username) == true)) );
+
+    return bPassed;
 }
-void test_verify_username_incorrect() {
+
+[[nodiscard]] auto
+test_verify_username_incorrect() -> bool {
+
+    bool bPassed = false;
 
     std::string username("badmin");
-    assert(verify_username(username) == false);
+    ASSERT((bPassed = (verify_username(username) == false)));
 
+    return bPassed;
 }
-void test_verify_password_correct() {
 
-    std::string password("password");
-    assert(verify_password(password) == true);
+[[nodiscard]] auto
+test_verify_password_correct() -> bool {
 
+    bool bPassed = false;
+
+    std::string password("demo");
+    ASSERT((bPassed = (verify_password(password) == true)));
+
+    return bPassed;
 }
-void test_verify_password_incorrect() {
+
+[[nodiscard]] auto
+test_verify_password_incorrect() -> bool {
+
+    bool bPassed = false;
 
     std::string password("incorrect");
-    assert(verify_password(password) == false);
+    ASSERT((bPassed = (verify_password(password) == false)));
 
+    return bPassed;
 }

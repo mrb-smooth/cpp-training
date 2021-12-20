@@ -49,8 +49,6 @@ set(SOURCES
 ## Protobuf Config
 set(Protubuf_INCLUDE_DIR ${SOURCE_DIR})
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${SOURCE_DIR}/Account.proto)
-#protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS EXPORT_MACRO DLL_EXPORT Account.proto)
-#protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS DESCRIPTORS PROTO_DESCS Account.proto)
 
 ## Set output directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)

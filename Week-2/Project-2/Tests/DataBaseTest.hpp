@@ -3,14 +3,19 @@
 
 #include "DataBase.hpp"
 
-void test_db_find_account();
-void test_db_add_account();
+bool test_db_find_account_exists();
+bool test_db_find_account_not_exists();
+bool test_db_add_account_exists();
+bool test_db_add_account_not_exists();
 
-void test_db_search_name();
-void test_get_name_by_account_id();
+bool test_db_search_name_exists();
+bool test_db_search_name_not_exists();
+bool test_get_name_by_account_id_exists();
+bool test_get_name_by_account_id_not_exists();
 
-void test_db_display_account();
-void test_db_close_account();
-void test_db_show_account();
+bool test_db_display_account_exists();
+bool test_db_display_account_not_exists();
+bool test_db_close_account_exists();
+bool test_db_close_account_not_exists();
 
 #endif // DATABASE_TEST_HPP

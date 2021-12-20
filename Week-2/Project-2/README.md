@@ -16,11 +16,12 @@ make
 
 ## Overview
 This is an extension to last week's project with the following additions:
-- [ ] Add security.
+- [ ] Add AES encryption.
+- [x] Add security.
 - [ ] Add transactions.
-- [ ] Add persistence and state. (Using google protobufs).
-- [ ] Add for serialization/deserialization to a protobufs "database".
-- [ ] Add error logging.
+- [x] Add persistence and state. (Using google protobufs).
+- [x] Add for serialization/deserialization to a protobufs "database".
+- [x] Add error logging.
 
 ## Rules
 - [x] The code must be compilable with clang++ c++17 compiler on a Centos 8 or similar OS.

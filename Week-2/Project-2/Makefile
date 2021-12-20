@@ -27,9 +27,13 @@ data.db:
 	echo -e "\n" > Data/$@
 
 .PHONY: tests
-tests: data.csv
-	$(CXX) $(CXXFLAGS) -Iinclude -Itests \
-	tests/*.cpp src/Authentication.cpp src/DataBase.cpp \
+tests:
+	$(CXX) -std=c++17 -Wall -Wextra \
+	`pkg-config --cflags --libs protobuf` \
+	-IIncludes -ITests -Ibuild \
+	Tests/*.cpp \
+	Sources/Authentication.cpp Sources/DataBase.cpp Sources/Logging.cpp \
+	build/Account.pb.cc \
 	-o run-tests
 
 $(BIN):

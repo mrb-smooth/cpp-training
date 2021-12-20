@@ -37,12 +37,12 @@ int main(int argc, char* argv[]) {
     // Initialize dataBase
     db::DataBase dataBase(file_name, accounts);
     
+    // Main Loop
     auth::login();          // Verify username and password
     client::app(dataBase);  // Main loop 
 
-    // Final write
-    std::fstream fs(argv[1]);
-    accounts.SerializeToOstream(&fs);
+    // Cleanup
+    accounts.Clear();
 
     return 0;
 }

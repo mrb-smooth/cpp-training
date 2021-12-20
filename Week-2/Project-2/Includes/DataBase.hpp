@@ -33,6 +33,7 @@ public:
     }
     ~DataBase()
     {
+        update_database();
     }
 public: // Const
     std::vector<unsigned> search_name(const std::string& name) const;

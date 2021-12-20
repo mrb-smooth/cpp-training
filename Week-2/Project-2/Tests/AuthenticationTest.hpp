@@ -3,10 +3,10 @@
 
 #include "Authentication.hpp"
 
-void test_verify_username_correct();
-void test_verify_username_incorrect();
+bool test_verify_username_correct();
+bool test_verify_username_incorrect();
 
-void test_verify_password_correct();
-void test_verify_password_incorrect();
+bool test_verify_password_correct();
+bool test_verify_password_incorrect();
 
 #endif // AUTHENTICATION_TEST_HPP
