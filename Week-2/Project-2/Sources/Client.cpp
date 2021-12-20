@@ -128,7 +128,10 @@ void client::app(db::DataBase& db) {
                 fgets(buffer, sizeof(buffer), stdin);
                 double transaction = std::atof(rstrip(buffer, sizeof(buffer)));
 
-                db.add_transaction(account_id, transaction);
+                bool bSuccess = false;
+                if ((bSuccess = db.add_transaction(account_id, transaction)); bSuccess) {
+                    std::cout << "Transaction added successfully." << std::endl;
+                }
             } else if (!query.compare("no")) {
                 std::cerr << "Aborting.\n" << std::flush;
             } else {

@@ -9,13 +9,13 @@ Scripts/run-image.sh
 ```
 ### Building Application
 ```bash
-cd /root/project-2 # Execute only if in docker
+# cd /root/project-2 # uncomment if in docker
 make
 ./Bin/bank-cli-2 "Data/data.db"
 ```
 ### Building & Run Tests
 ```bash
-# make # uncomment if you have not already build the main binary
+# make # uncomment if you have not already built the main binary
 ./Bin/run-tests
 ```
 
