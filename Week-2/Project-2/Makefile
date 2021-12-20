@@ -12,7 +12,7 @@ SOURCES  = $(wildcard $(SRC)/*.cpp)
 OBJECTS  = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.cpp.o,$(SOURCES))
 
 all: $(PROJECT)
-run-tests: tests
+run-tests: $(PROJECT)
 
 $(PROJECT): data.db
 $(PROJECT): $(BIN) $(BUILD) dependencies
@@ -22,22 +22,13 @@ $(PROJECT): $(BIN) $(BUILD) dependencies
 dependencies:
 	$(CMAKE) -B $(BUILD)
 
+.PHONY: run-tests
+run-tests:
+	./Bin/run-tests
+
 data.db:
 	mkdir -p Data
 	touch Data/$@
-
-.PHONY: tests
-tests:
-	$(CXX) -std=c++17 -Wall -Wextra \
-	`pkg-config --cflags --libs protobuf` \
-	-IIncludes -ITests -Ibuild \
-	Tests/*.cpp \
-	Sources/Authentication.cpp Sources/DataBase.cpp Sources/Logging.cpp \
-	build/Account.pb.cc \
-	-o run-tests
-
-run-tests:
-	./run-tests
 
 $(BIN):
 	mkdir -p $@
@@ -45,6 +36,7 @@ $(BIN):
 $(BUILD):
 	mkdir -p $@
 
+.PHONY: clean
 clean:
 	rm -fr Bin/*
 	rm -fr Build/*
@@ -52,6 +44,7 @@ clean:
 	rm -fr Data/*
 	rm -f  run-tests
 
+.PHONY: extra-clean
 extra-clean:
 	rm -fr Bin
 	rm -fr Build

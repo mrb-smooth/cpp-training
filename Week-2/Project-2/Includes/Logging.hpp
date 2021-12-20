@@ -6,6 +6,7 @@
 #include <ctime>
 
 using std::filesystem::exists;
+using std::filesystem::is_empty;
 using std::filesystem::is_directory;
 
 namespace logging
@@ -27,7 +28,7 @@ protected:
         }
 
         std::ofstream ofs(log_file, std::ios_base::app);
-        if (!exists(log_file)) {
+        if (!exists(log_file) || is_empty(log_file)) {
             ofs << "[" + get_current_time() + "]: Application started.\n";
         } else {
             ofs << "\n"

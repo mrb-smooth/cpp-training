@@ -7,6 +7,9 @@ set(CMAKE_CXX_COMPILER_FLAGS "-std=c++17 -O2 -g -Wall -Wextra -Werror -Wpedantic
 ## Initialize project
 project(bank-cli-2 CXX)
 set(TARGET bank-cli-2)
+set(TESTS run-tests)
+
+# Dependencies
 find_package(Protobuf REQUIRED)
 
 ## Set standards
@@ -25,25 +28,16 @@ set(SOURCE_DIR Sources)
 ## Add CXX sources
 set(SOURCES
     # CXX sources
-    ${SOURCE_DIR}/Accounts.cpp
     ${SOURCE_DIR}/Authentication.cpp
     ${SOURCE_DIR}/Client.cpp
-    ${SOURCE_DIR}/Customer.cpp
     ${SOURCE_DIR}/DataBase.cpp
     ${SOURCE_DIR}/Logging.cpp
     ${SOURCE_DIR}/Main.cpp
-    ${SOURCE_DIR}/Transactions.cpp
     # CXX includes
-    ${INCLUDE_DIR}/Accounts.hpp
     ${INCLUDE_DIR}/Authentication.hpp
     ${INCLUDE_DIR}/Client.hpp
-    ${INCLUDE_DIR}/Customer.hpp
     ${INCLUDE_DIR}/DataBase.hpp
-    ${INCLUDE_DIR}/Definitions.hpp
-    ${INCLUDE_DIR}/Encryption.hpp
     ${INCLUDE_DIR}/Logging.hpp
-    ${INCLUDE_DIR}/Transactions.hpp
-    ${INCLUDE_DIR}/Utils.hpp
 )
 
 ## Protobuf Config
@@ -54,8 +48,40 @@ protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${SOURCE_DIR}/Account.proto)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-#enable_testing()
-
-## Executable and link dependencies
+## Application executable and link dependencies
 add_executable(${TARGET} ${SOURCES} ${PROTO_SRCS} ${PROTO_HDRS})
 target_link_libraries(${TARGET} ${Protobuf_LIBRARIES})
+
+## Include directories
+include_directories(${TARGET} ${Protobuf_INCLUDE_DIRS})
+include_directories(${TARGET} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${TARGET} Includes Tests)
+set(INCLUDE_DIR Includes)
+set(TESTS_DIR Tests)
+
+## Source directories
+set(SOURCE_DIR Sources)
+
+## Add CXX sources
+set(TEST_SOURCES
+    # CXX sources
+    ${SOURCE_DIR}/Authentication.cpp
+    ${SOURCE_DIR}/Client.cpp
+    ${SOURCE_DIR}/DataBase.cpp
+    ${SOURCE_DIR}/Logging.cpp
+    ${TESTS_DIR}/AuthenticationTest.cpp
+    ${TESTS_DIR}/DataBaseTest.cpp
+    ${TESTS_DIR}/TestSuite.cpp
+    # CXX includes
+    ${INCLUDE_DIR}/Authentication.hpp
+    ${INCLUDE_DIR}/Client.hpp
+    ${INCLUDE_DIR}/DataBase.hpp
+    ${INCLUDE_DIR}/Logging.hpp
+    ${TESTS_DIR}/AuthenticationTest.hpp
+    ${TESTS_DIR}/DataBaseTest.hpp
+    ${TESTS_DIR}/TestSuite.hpp
+)
+
+## Test executable and link dependencies
+add_executable(${TESTS} ${TEST_SOURCES} ${PROTO_SRCS} ${PROTO_HDRS})
+target_link_libraries(${TESTS} ${Protobuf_LIBRARIES})

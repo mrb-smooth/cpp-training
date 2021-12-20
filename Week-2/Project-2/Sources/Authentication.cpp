@@ -1,5 +1,4 @@
 #include "authentication.hpp"
-#include "encryption.hpp"
 
 #include <iostream>
 

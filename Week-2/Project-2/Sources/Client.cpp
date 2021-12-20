@@ -51,6 +51,10 @@ static inline bool valid_name(std::string name) {
         }
     }
 
+    if (spaces != 1) {
+        return false;
+    }
+
     return true;
 }
 

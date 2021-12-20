@@ -1,7 +1,6 @@
 #ifndef DATABASE_HPP
 #define DATABASE_HPP
 
-#include "Accounts.hpp"
 #include "Logging.hpp"
 
 #include <Account.pb.h>

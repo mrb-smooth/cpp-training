@@ -1,11 +1,10 @@
 ## TODO
-<!--- [ ] ~~Usage~~-->
-- [ ] Convert Database from CSV to Protobuf
+- [x] Convert Database from CSV to Protobuf
 
 - [x] User/Password prompt
   - [x] Username verification
   - [x] Password verification
-    - [ ] Password encryption (optional)
+    - [ ] ~~Password encryption (optional)~~
 
 - [x] Implement Commands
   - [x] "show accounts"
@@ -14,7 +13,7 @@
   - [x] "new account"
   - [x] "close account"
   - [x] "quit"
-  - [ ] Must include tests which should be runnable.
+  - [x] Must include tests which should be runnable.
 
 ## TODONE
 - [x] The code must be compilable with clang++ c++17 compiler on a Centos 8 or similar OS.

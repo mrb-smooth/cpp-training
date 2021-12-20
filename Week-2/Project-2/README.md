@@ -11,14 +11,19 @@ Scripts/run-image.sh
 ```bash
 cd /root/project-2 # Execute only if in docker
 make
-./bin/bank-cli-2 "Data/Accounts.db"
+./Bin/bank-cli-2 "Data/data.db"
+```
+### Building & Run Tests
+```bash
+# make # uncomment if you have not already build the main binary
+./Bin/run-tests
 ```
 
 ## Overview
 This is an extension to last week's project with the following additions:
-- [ ] Add AES encryption.
+- [ ] ~~Add AES encryption.~~
 - [x] Add security.
-- [ ] Add transactions.
+- [x] Add transactions.
 - [x] Add persistence and state. (Using google protobufs).
 - [x] Add for serialization/deserialization to a protobufs "database".
 - [x] Add error logging.
@@ -27,7 +32,7 @@ This is an extension to last week's project with the following additions:
 - [x] The code must be compilable with clang++ c++17 compiler on a Centos 8 or similar OS.
 - [x] Must have a way to build using make, cmake or something similar.
 - [x] The code needs to work in command line and self-contained and no external dependencies.
-- [ ] Must include tests which should be runnable.
+- [x] Must include tests which should be runnable.
 
 ## Details
 We will restrict the usage to "administrators" only for now.
