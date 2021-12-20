@@ -62,12 +62,16 @@ static inline bool valid_ssn(const std::string ssn) {
     // Strip hyphen if any
     tmp.erase(std::remove(tmp.begin(), tmp.end(), '-'), tmp.end());
 
+    // Make sure it is exactly 9 digits
+    if (tmp.size() != 9) {
+        return false;
+    }
+
     // If non-numeric
     for (const auto& c : tmp) {
         if (!(c >= '1' && c <= '9')) {
             return false;
         }
-
     }
 
     return true;
@@ -105,6 +109,27 @@ void client::app(db::DataBase& db) {
             }
 
             db.display_account(account_id);
+            
+            // Transaction prompt
+            std::cout << "Add a transaction? (yes/no) > ";
+
+            memset(buffer, 0, sizeof(buffer));
+            fgets(buffer, sizeof(buffer), stdin);
+            query = rstrip(buffer, sizeof(buffer));
+
+            if (!query.compare("yes")) {
+                // Get transaction
+                std::cout << "command > account > " << account_id << " > amount " << std::flush; 
+                memset(buffer, 0, sizeof(buffer));
+                fgets(buffer, sizeof(buffer), stdin);
+                double transaction = std::atof(rstrip(buffer, sizeof(buffer)));
+
+                db.add_transaction(account_id, transaction);
+            } else if (!query.compare("no")) {
+                std::cerr << "Aborting.\n" << std::flush;
+            } else {
+                std::cerr << "Error: unknown option. Aborting.\n" << std::flush;
+            }
         } else if (!query.compare("search name") && query.length() == 11) {
             std::cout << "command > search name > " << std::flush; 
 
@@ -119,7 +144,6 @@ void client::app(db::DataBase& db) {
             size_t size = results.size();
 
             // Display results
-            // TODO: Change i to account name
             unsigned i;
             for (i = 0; i < size; i++) {
                 std::cout << i << ") " << db.get_name_by_account_id(results[i]) << "\n";
@@ -142,12 +166,10 @@ void client::app(db::DataBase& db) {
                 } else if (selection < size && selection >= 0) {
                     db.display_account(results[selection]);
                 }
-
             } catch (...) {
                 std::cerr << "Error: invalid number.\n";
                 continue;
             }
-
         } else if (!query.compare("new account") && query.length() == 11) {
             std::cout << "command > new account > name > " << std::flush; 
 
@@ -206,9 +228,7 @@ void client::app(db::DataBase& db) {
                 } else {
                     std::cerr << "Error: unknown option. Aborting.\n" << std::flush;
                 }
-
             }
-
         } else if (!query.compare("quit") && query.length() == 4) {
             std::cout << "Exiting...\n";
             break;

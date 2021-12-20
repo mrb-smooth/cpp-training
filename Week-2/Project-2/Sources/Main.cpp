@@ -1,13 +1,13 @@
 /**
  * Creator: VPR
  * Created: December 16th, 2021
- * Updated: December 18th, 2021
+ * Updated: December 20th, 2021
  *
  * Description:
  *     An improved command line banking application that utilizes
  *     - [ ] AES password encryption
- *     - [ ] Google Protobuf for data serialization
- *     - [ ] Google Protobuf for data persistence
+ *     - [x] Google Protobuf for data serialization
+ *     - [x] Google Protobuf for data persistence
  *     - [x] Custom interfaces for enhanced logging capabilities
 **/
 
@@ -40,9 +40,6 @@ int main(int argc, char* argv[]) {
     // Main Loop
     auth::login();          // Verify username and password
     client::app(dataBase);  // Main loop 
-
-    // Cleanup
-    accounts.Clear();
 
     return 0;
 }

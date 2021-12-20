@@ -8,7 +8,7 @@ extern unsigned g_tests_failed;
 extern unsigned g_tests_passed;
 
 [[nodiscard]] auto
-test_verify_username_correct() -> bool {
+test_auth_verify_username_correct() -> bool {
 
     bool bPassed = false;
 
@@ -19,7 +19,7 @@ test_verify_username_correct() -> bool {
 }
 
 [[nodiscard]] auto
-test_verify_username_incorrect() -> bool {
+test_auth_verify_username_incorrect() -> bool {
 
     bool bPassed = false;
 
@@ -30,7 +30,7 @@ test_verify_username_incorrect() -> bool {
 }
 
 [[nodiscard]] auto
-test_verify_password_correct() -> bool {
+test_auth_verify_password_correct() -> bool {
 
     bool bPassed = false;
 
@@ -41,7 +41,7 @@ test_verify_password_correct() -> bool {
 }
 
 [[nodiscard]] auto
-test_verify_password_incorrect() -> bool {
+test_auth_verify_password_incorrect() -> bool {
 
     bool bPassed = false;
 

@@ -32,7 +32,7 @@ protected:
         } else {
             ofs << "\n"
                 << []{ std::string res; for (; res.size() < 80;) res += "-"; return res; }()
-                << "\n"
+                << "\n\n"
                 << "[" + get_current_time() + "]: Application started.\n";
         }
     }

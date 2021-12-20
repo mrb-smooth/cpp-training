@@ -2,19 +2,21 @@ syntax = "proto3";
 
 package pb;
 
+message Ledger
+{
+    double amount=1;
+    bool successful=2;
+    string transaction_dt=3;
+}
+
 message Account
 {
     string full_name=1;
     string social_security=2;
     string date_created_dt=3;
+    double balance=4;
+    Ledger ledger=5;
 
-    message Transactions
-    {
-        int64 amount_sent=1;
-        int64 amount_recv=2;
-        string recipient_account_id=3;
-        string transaction_dt=4;
-    }
 }
 
 message Accounts

@@ -10,10 +10,10 @@ int main() {
 
     // Authentication
     std::cout << "Performing Authentication Tests...\n";
-    TEST(test_verify_username_correct);
-    TEST(test_verify_username_incorrect);
-    TEST(test_verify_password_correct);
-    TEST(test_verify_password_incorrect);
+    TEST(test_auth_verify_username_correct);
+    TEST(test_auth_verify_username_incorrect);
+    TEST(test_auth_verify_password_correct);
+    TEST(test_auth_verify_password_incorrect);
 
     // DataBase
     std::cout << "Performing Database Tests...\n";
@@ -24,14 +24,14 @@ int main() {
 
     TEST(test_db_search_name_exists);
     TEST(test_db_search_name_not_exists);
-    TEST(test_get_name_by_account_id_exists);
-    TEST(test_get_name_by_account_id_not_exists);
+    TEST(test_db_get_name_by_account_id_exists);
+    TEST(test_db_get_name_by_account_id_not_exists);
 
-    TEST(test_db_display_account_exists);
-    TEST(test_db_display_account_not_exists);
     TEST(test_db_close_account_exists);
     TEST(test_db_close_account_not_exists);
-    // Transactions
+    
+    TEST(test_db_add_transaction_sufficient_funds);
+    TEST(test_db_add_transaction_insufficient_funds);
 
     std::cout << std::endl;
     std::cout << "Tests failed: " << g_tests_failed << "\n";

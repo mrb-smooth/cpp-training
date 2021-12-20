@@ -12,7 +12,7 @@ SOURCES  = $(wildcard $(SRC)/*.cpp)
 OBJECTS  = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.cpp.o,$(SOURCES))
 
 all: $(PROJECT)
-test: tests
+run-tests: tests
 
 $(PROJECT): data.db
 $(PROJECT): $(BIN) $(BUILD) dependencies
@@ -24,7 +24,7 @@ dependencies:
 
 data.db:
 	mkdir -p Data
-	echo -e "\n" > Data/$@
+	touch Data/$@
 
 .PHONY: tests
 tests:
@@ -35,6 +35,9 @@ tests:
 	Sources/Authentication.cpp Sources/DataBase.cpp Sources/Logging.cpp \
 	build/Account.pb.cc \
 	-o run-tests
+
+run-tests:
+	./run-tests
 
 $(BIN):
 	mkdir -p $@

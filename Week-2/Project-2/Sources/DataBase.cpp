@@ -5,14 +5,12 @@
 #include <sstream>
 #include <ctime>
 
-#define CUSTOMER_NAME     0
-#define DATE_OPENED       1
-#define SOCIAL_SECURITY   2
+#define BASE_ACCOUNT_SIZE 1'000'000'000
 
 //////////////////////////////
 // Helper functions - start //
 //////////////////////////////
-unsigned levenshtein_distance(const std::string_view& s1, const std::string_view& s2) {
+static inline unsigned levenshtein_distance(const std::string_view& s1, const std::string_view& s2) {
 
 	const std::size_t len1 = s1.size(), len2 = s2.size();
 	std::vector<std::vector<unsigned int>> d(len1 + 1, std::vector<unsigned int>(len2 + 1));
@@ -28,11 +26,24 @@ unsigned levenshtein_distance(const std::string_view& s1, const std::string_view
 
 	return d[len1][len2];
 }
+
+static inline uint64_t generate_next_account_id(const db::DataBase& db) {
+
+    uint64_t generated_id = BASE_ACCOUNT_SIZE + 1;
+    for (uint64_t i = 0; i < db.data.size(); i++) {
+        if (!db.data.contains(generated_id + i)) {
+            return generated_id + i;
+        }
+    }
+
+    return generated_id;
+}
 ////////////////////////////
 // Helper functions - end //
 ////////////////////////////
 
-bool db::DataBase::find_account(unsigned int account_id) const {
+
+bool db::DataBase::find_account(uint64_t account_id) const {
 
     log_info("Searching for account ID: '" + std::to_string(account_id) + "'...");
     if (data.find(account_id) == data.end()) {
@@ -49,18 +60,8 @@ bool db::DataBase::find_account(unsigned int account_id) const {
 
 bool db::DataBase::add_account(std::string full_name, std::string social_security) {
 
-    // Generate random number
-    int account_id = rand() % INT32_MAX;
-
-    // Get datetime
-    time_t rawtime;
-    time(&rawtime);
-
-    tm* timeinfo;
-    char datetime[80];
-
-    timeinfo = localtime(&rawtime);
-    strftime(datetime, sizeof(datetime), "%Y-%m-%d", timeinfo);
+    // Generate next account number
+    int account_id = generate_next_account_id(*this);
 
     // Verify that data is unique
     log_info("Verifying that data is unique...");
@@ -79,7 +80,7 @@ bool db::DataBase::add_account(std::string full_name, std::string social_securit
         if (bDuplicate) {
         log_warning("Failed to create new account - Account: " + full_name +
                  " Social Security Number: " + social_security.substr(7, 10) +
-                 " Date Created: " + datetime + ".");
+                 " at: " + get_current_time() + ".");
             return false;
         }
     }
@@ -92,25 +93,68 @@ bool db::DataBase::add_account(std::string full_name, std::string social_securit
 
     log_info("Populated Database with new account - Account: " + full_name +
              " Social Security Number: " + social_security.substr(7, 10) +
-             " Date Created: " + datetime + ".");
+             " Date Created: " + get_current_time() + ".");
 
-    if (update_database()) {
-        return true;
-    }
+    (void)update_database();
     
-    return false;
+    return true;
+}
+
+bool db::DataBase::add_transaction(uint64_t account_id, double transaction) {
+
+    log_info("Attempting to execute transaction: "
+             "Account ID: " + std::to_string(account_id) +
+             "; Amount: " + std::to_string(transaction) + ".");
+
+    // Assert account exists
+    if (!data.contains(account_id)) {
+        log_error("Account '" + std::to_string(account_id) + "' not found.");
+        return false;
+    }
+
+    // Actually add transaction
+    if (data.at(account_id).balance() + transaction < 0) {
+        // Record ledger 
+        data.at(account_id).mutable_ledger()->set_amount(transaction);
+        data.at(account_id).mutable_ledger()->set_successful(false);
+        data.at(account_id).mutable_ledger()->set_transaction_dt(get_current_time());
+
+        log_warning("Insufficient funds: Account '" + std::to_string(account_id) +
+                "' balance = " + std::to_string(data.at(account_id).balance()) + ".");
+
+        return false;
+    } else {
+        // Adjust balance
+        double previous_balance = data.at(account_id).balance();
+        data.at(account_id).set_balance(previous_balance + transaction);
+
+        // Record ledger 
+        data.at(account_id).mutable_ledger()->set_amount(transaction);
+        data.at(account_id).mutable_ledger()->set_successful(true);
+        data.at(account_id).mutable_ledger()->set_transaction_dt(get_current_time());
+
+        log_info("Transaction successful: Account '" + std::to_string(account_id) +
+                "' balance = " + std::to_string(data.at(account_id).balance()) + ".");
+    }
+
+    return true;
 }
 
 std::string db::DataBase::get_name_by_account_id(unsigned account_id) const {
 
     log_info("Getting name of account: '" + std::to_string(account_id) + "'...");
+    if (!data.contains(account_id)) {
+        log_warning("Account ID: '" + std::to_string(account_id) + "' not found.");
+        return "";
+    }
+
     return data.at(account_id).full_name();
 
 }
 
 std::vector<unsigned> db::DataBase::search_name(const std::string& name) const {
 
-    std::vector<unsigned> search_results;
+    std::vector<unsigned> search_results = { };
 
     // Find exact
     log_info("Searching for account with exact name: '" + name + "'...");
@@ -125,7 +169,9 @@ std::vector<unsigned> db::DataBase::search_name(const std::string& name) const {
     // Find Similar
     log_info("Searching for account with similar name: '" + name + "'...");
     for (const auto& [account_id, account_values] : data) {
-        if (levenshtein_distance(account_values.full_name(), name) < 4) {
+        if ((levenshtein_distance(account_values.full_name(), name) < 4) &&
+            (std::find(search_results.begin(), search_results.end(), account_id) == search_results.end()))
+        {
             log_info("Account with similar name found.");
             search_results.push_back(account_id);
         }
@@ -152,6 +198,7 @@ void db::DataBase::display_account(unsigned int account_id) const {
               << account_values.social_security().substr(account_values.social_security().length() - 4) << "\n"
               << "Date Opened:\t"   << account_values.date_created_dt() << "\n"
               << "Account:\t"       << account_id << "\n"
+              << "Balance:\t"       << account_values.balance() << "\n"
               << "\n" << std::flush;
 
 }
@@ -161,6 +208,11 @@ void db::DataBase::close_account(unsigned int account_id) {
     auto original_size = data.size();
 
     log_info("Attempting to display account: '" + std::to_string(account_id) + "'...");
+    if (!data.contains(account_id)) {
+        log_warning("Account ID: '" + std::to_string(account_id) + "' not found.");
+        return;
+    }
+
     data.erase(data.find(account_id));
     if (original_size == data.size()) {
         log_error("Failed to remove account: '" + std::to_string(account_id) + "'.");
@@ -195,28 +247,30 @@ void db::DataBase::show_accounts() const {
 db::DataBase::generate_database() -> bool {
 
     log_info("Attempting to generate data for '" + data_source + "'...");
-    std::ofstream ofs(data_source, std::ios::out | std::ios::trunc | std::ios::binary);
 
     // Hardcoded data
-    data[1123456789].set_full_name("John Doe");
-    data[1123456789].set_social_security("155-55-5555");
-    data[1123456789].set_date_created_dt("2021-19-2021");
+    data[BASE_ACCOUNT_SIZE + 1].set_full_name("John Doe");
+    data[BASE_ACCOUNT_SIZE + 1].set_social_security("155555555");
+    data[BASE_ACCOUNT_SIZE + 1].set_date_created_dt("2021-12-19 00:00:00");
+    data[BASE_ACCOUNT_SIZE + 1].set_balance(25.0l);
 
-    data[2123456789].set_full_name("Jane Doe");
-    data[2123456789].set_social_security("255-55-5555");
-    data[2123456789].set_date_created_dt("2021-19-2021");
+    data[BASE_ACCOUNT_SIZE + 2].set_full_name("Jane Doe");
+    data[BASE_ACCOUNT_SIZE + 2].set_social_security("255555555");
+    data[BASE_ACCOUNT_SIZE + 2].set_date_created_dt("2021-12-19 00:00:00");
+    data[BASE_ACCOUNT_SIZE + 2].set_balance(25.0l);
 
-    data[3123456789].set_full_name("George Doe");
-    data[3123456789].set_social_security("355-55-5555");
-    data[3123456789].set_date_created_dt("2021-19-2021");
+    data[BASE_ACCOUNT_SIZE + 3].set_full_name("George Doe");
+    data[BASE_ACCOUNT_SIZE + 3].set_social_security("355555555");
+    data[BASE_ACCOUNT_SIZE + 3].set_date_created_dt("2021-12-19 00:00:00");
+    data[BASE_ACCOUNT_SIZE + 3].set_balance(25.0l);
 
-    if (db.SerializeToOstream(&ofs); data.size()) {
-        log_info("Successfully generated data for '" + data_source + "'.");
-        return true;
+    if (update_database(); !data.size()) {
+        log_warning("Failed to generate data for '" + data_source + "'.");
+        return false;
     } 
 
-    log_warning("Failed to generate data for '" + data_source + "'.");
-    return false;
+    log_info("Successfully generated data for '" + data_source + "'.");
+    return true;
 }
 
 [[nodiscard]] auto
@@ -225,13 +279,13 @@ db::DataBase::update_database() -> bool {
     log_info("Attempting to update data for '" + data_source + "'...");
     std::ofstream ofs(data_source, std::ios::out | std::ios::trunc | std::ios::binary);
 
-    if (db.SerializeToOstream(&ofs)) {
-        log_info("Successfully updated data for '" + data_source + "'.");
-        return true;
+    if (!db.SerializeToOstream(&ofs)) {
+        log_warning("Failed to update data for '" + data_source + "'.");
+        return false;
     } 
 
-    log_warning("Failed to update data for '" + data_source + "'.");
-    return false;
+    log_info("Successfully updated data for '" + data_source + "'.");
+    return true;
 }
 
 [[nodiscard]] auto

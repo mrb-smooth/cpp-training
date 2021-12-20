@@ -41,8 +41,9 @@ public: // Const
 
     void display_account(unsigned int account) const;
 
-    bool find_account(unsigned int account) const;
+    bool find_account(uint64_t account) const;
     bool add_account(std::string, std::string);
+    bool add_transaction(uint64_t account_id, double transaction);
 public: // Non-const
     void close_account(unsigned account);
     void show_accounts() const;

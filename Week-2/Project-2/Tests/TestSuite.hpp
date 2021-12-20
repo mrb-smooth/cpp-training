@@ -3,7 +3,7 @@
 
 #ifndef TEST
 #define TEST(X) std::cout << "Testing: " << #X << std::endl;\
-                std::cout << "Test " << ( X() ? "passed" : "failed") << ".\n\n"
+                std::cout << ( X() ? "Test passed" : "Test failed") << ".\n\n"
 #endif // TEST
 
 #ifndef ASSERT
